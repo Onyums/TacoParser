@@ -18,10 +18,10 @@ namespace LoggingKata
             logger.LogInfo("Log initialized");
 
             // use File.ReadAllLines(path) to grab all the lines from your csv file
-            // Log and error if you get 0 lines and a warning if you get 1 line
+            // Log an error if you get 0 lines and a warning if you get 1 line
             var lines = File.ReadAllLines(csvPath);
 
-            logger.LogInfo($"Lines: {lines[0]}");
+            // logger.LogInfo($"Lines: {lines[0]}");
 
             // Create a new instance of your TacoParser class
             var parser = new TacoParser();
@@ -36,8 +36,13 @@ namespace LoggingKata
 
             // Create two `ITrackable` variables with initial values of `null`. These will be used to store your two taco bells that are the furthest from each other.
             // Create a `double` variable to store the distance
+            TacoBell pos1 = null;
+            TacoBell pos2 = null;
+            double distance = 0;
+
 
             // Include the Geolocation toolbox, so you can compare locations: `using GeoCoordinatePortable;`
+            
 
             //HINT NESTED LOOPS SECTION---------------------
             // Do a loop for your locations to grab each location as the origin (perhaps: `locA`)
@@ -47,7 +52,24 @@ namespace LoggingKata
             // Now, do another loop on the locations with the scope of your first loop, so you can grab the "destination" location (perhaps: `locB`)
 
             // Create a new Coordinate with your locB's lat and long
-
+            for(int i = 0; i < locations.Length; i++)
+            {
+                TacoBell locA = (TacoBell)locations[i];
+                GeoCoordinate CorA = new GeoCoordinate(locA.latitude, locA.longitude);
+                for (int j = i+1; j < locations.Length; j++)
+                {
+                    TacoBell locB = (TacoBell)locations[j];
+                    GeoCoordinate CorB = new GeoCoordinate(locB.latitude, locB.longitude);
+                    double temp = CorA.GetDistanceTo(CorB);
+                    if(temp > distance)
+                    {
+                        distance = temp;
+                        pos1 = locA;
+                        pos2 = locB;
+                    }
+                }
+            }
+            Console.WriteLine($"{pos1.name} and {pos2.name} are {Math.Floor(distance)} meters away");
             // Now, compare the two using `.GetDistanceTo()`, which returns a double
             // If the distance is greater than the currently saved distance, update the distance and the two `ITrackable` variables you set above
 

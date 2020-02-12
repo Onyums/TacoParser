@@ -22,18 +22,22 @@ namespace LoggingKata.Test
         }
 
         [Theory]
-        [InlineData("Example")]
+        [InlineData("30.056, -69.6969, A name...")]
         public void ShouldParse(string str)
         {
-            // TODO: Complete Should Parse
+            var tacoTest = new TacoParser();
+            var test = tacoTest.Parse(str);
+            Assert.IsType<TacoBell>(test);
         }
 
         [Theory]
         [InlineData(null)]
-        [InlineData("")]
+        [InlineData("30, Name")]
         public void ShouldFailParse(string str)
         {
-            // TODO: Complete Should Fail Parse
+            var tester = new TacoParser();
+            var test = tester.Parse(str);
+            Assert.Null(test);
         }
     }
 }
