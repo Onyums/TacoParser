@@ -42,7 +42,7 @@ namespace LoggingKata
 
 
             // Include the Geolocation toolbox, so you can compare locations: `using GeoCoordinatePortable;`
-            
+
 
             //HINT NESTED LOOPS SECTION---------------------
             // Do a loop for your locations to grab each location as the origin (perhaps: `locA`)
@@ -52,16 +52,16 @@ namespace LoggingKata
             // Now, do another loop on the locations with the scope of your first loop, so you can grab the "destination" location (perhaps: `locB`)
 
             // Create a new Coordinate with your locB's lat and long
-            for(int i = 0; i < locations.Length; i++)
+            for (int i = 0; i < locations.Length; i++)
             {
                 TacoBell locA = (TacoBell)locations[i];
                 GeoCoordinate CorA = new GeoCoordinate(locA.latitude, locA.longitude);
-                for (int j = i+1; j < locations.Length; j++)
+                for (int j = i + 1; j < locations.Length; j++)
                 {
                     TacoBell locB = (TacoBell)locations[j];
                     GeoCoordinate CorB = new GeoCoordinate(locB.latitude, locB.longitude);
                     double temp = CorA.GetDistanceTo(CorB);
-                    if(temp > distance)
+                    if (temp > distance)
                     {
                         distance = temp;
                         pos1 = locA;
@@ -69,7 +69,42 @@ namespace LoggingKata
                     }
                 }
             }
-            Console.WriteLine($"{pos1.name} and {pos2.name} are {Math.Floor(distance)} meters away");
+                Console.WriteLine($"{pos1.name} and {pos2.name} are {Math.Floor(distance)} meters away");
+                TacoBell Ala1 = null;
+                TacoBell Ala2 = null;
+                double aladis = 0;
+                double top = 34.99;
+                double bottom = 31.018;
+                double right = -84.977;
+                double left = -88.477;
+                for (int i = 0; i < locations.Length; i++)
+                {
+                    TacoBell locA = (TacoBell)locations[i];
+                GeoCoordinate corA = new GeoCoordinate(locA.latitude, locA.longitude);
+                if ((locA.latitude < top && locA.latitude > bottom)&&(locA.longitude < right && locA.longitude > left))
+                {
+                    for (int j = i+1; j < locations.Length; j++)
+                    {
+                        TacoBell locB = (TacoBell)locations[j];
+                        GeoCoordinate corB = new GeoCoordinate(locB.latitude, locB.longitude);
+                        if ((locB.latitude < top && locB.latitude > bottom) && (locB.longitude < right && locB.longitude > left)) 
+                        {
+                            double temp = corA.GetDistanceTo(corB);
+                            if (temp > distance)
+                            {
+                                distance = temp;
+                                pos1 = locA;
+                                pos2 = locB;
+                            }
+
+                            
+                        }
+                    }
+                }
+                }
+
+            }
+            
             // Now, compare the two using `.GetDistanceTo()`, which returns a double
             // If the distance is greater than the currently saved distance, update the distance and the two `ITrackable` variables you set above
 
